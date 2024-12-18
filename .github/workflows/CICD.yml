@@ -35,7 +35,7 @@ jobs:
               exit 1
             fi
             
-  Update-htpasswd:
+  Create-file:
     needs: Copy
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +47,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd $HOME/www/atelier1
-            rm -f .htpasswd
-            cat > .htpasswd << 'EOL'
-            ${{ secrets.MY_SECRET_FILE_CONTENT }}
-            EOL
+            echo '${{ secrets.HTPASSWD }}' > .htpasswd
