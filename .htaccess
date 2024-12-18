@@ -1,4 +1,0 @@
-AuthName "Accès protégé"
-AuthType Basic
-AuthUserFile /home/etudiantremy/www/.htpasswd
-Require valid-user
