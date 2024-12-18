@@ -34,3 +34,17 @@ jobs:
               echo "Le répertoire flask de destination sur votre serveur n'existe pas"
               exit 1
             fi
+            
+  htpasswd:
+    needs: Copy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Création .htpasswd
+        uses: appleboy/ssh-action@master
+        with:
+          host: "ssh-${{ secrets.USERNAME }}.alwaysdata.net"
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            cd $HOME/www/atelier1
+            echo "${{ secrets.HTPASSWD }}" > .htpasswd
