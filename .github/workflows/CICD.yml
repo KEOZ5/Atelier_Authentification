@@ -35,16 +35,19 @@ jobs:
               exit 1
             fi
             
-  htpasswd:
+  Update-htpasswd:
     needs: Copy
     runs-on: ubuntu-latest
     steps:
-      - name: Création .htpasswd
-        uses: appleboy/ssh-action@master
+      - name: Connexion SSH et mise à jour htpasswd
+        uses: etudiantremy/ssh-action@master
         with:
           host: "ssh-${{ secrets.USERNAME }}.alwaysdata.net"
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
             cd $HOME/www/atelier1
-            echo "${{ secrets.HTPASSWD }}" > .htpasswd
+            rm -f .htpasswd
+            cat > .htpasswd << 'EOL'
+            ${{ secrets.MY_SECRET_FILE_CONTENT }}
+            EOL
